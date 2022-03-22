@@ -5,15 +5,6 @@ import MovieCard from "./MovieCard";
 
 const API_URL = "http://www.omdbapi.com/?apikey=af9604a5";
 
-const movie1 = {
-  Poster:
-    "https://m.media-amazon.com/images/M/MV5BZDEyN2NhMjgtMjdhNi00MmNlLWE5YTgtZGE4MzNjMTRlMGEwXkEyXkFqcGdeQXVyNDUyOTg3Njg@._V1_SX300.jpg",
-  Title: "Spider-Man",
-  Type: "movie",
-  Year: "2002",
-  imdbID: "tt0145487",
-};
-
 const App = () => {
   const [movies, setMovies] = useState([]);
   const [search, setSearch] = useState("");
@@ -30,17 +21,29 @@ const App = () => {
     searchMovies("Spider-man");
   }, []);
 
+  // Handle press enter for search, not just icon click
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      searchMovies(search);
+    }
+  };
+
   return (
     <div className="app">
       <h1>MovieLand</h1>
 
       <div className="search">
         <input
-          placeHolder="Search for movies"
+          placeholder="Search for movies"
           value={search}
           onChange={(event) => setSearch(event.target.value)}
+          onKeyDown={handleKeyDown}
         />
-        <img src={SearchIcon} alt="search" onClick={() => searchMovies(search)} />
+        <img
+          src={SearchIcon}
+          alt="search"
+          onClick={() => searchMovies(search)}
+        />
       </div>
 
       {movies?.length > 0 ? (
